@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 
 <html>
-<!-- CIA.js/index_alpha.html         -->
+<!-- CIA.js/index_alpha.html   -->
 <!-- Written by Kendall Purser -->
 <!-- 2013.05.28                -->
 <!--                           -->
 <head>
-  <title>CIA- Textadventure</title>
+	<title>CIA- Textadventure</title>
 	<style type="text/css">
 		pre {
 			margin: -8px;
@@ -227,7 +227,7 @@
 					engine.update(temp_msg);
 				},
 				verbs : function () {
-					var temp_msg = "I uncerstand the following verbs: <br />";
+					var temp_msg = "I understand the following verbs: <br />";
 					keys = Object.getOwnPropertyNames(cia.verbs).sort();
 					keys = keys.join(", ");
 					temp_msg += keys;
@@ -236,7 +236,7 @@
 				},
 				commands : function () {
 					var temp_msg, keys;
-					temp_msg = "I uncerstand the following commands: <br />";
+					temp_msg = "I understand the following commands: <br />";
 					keys = Object.getOwnPropertyNames(cia.commands).sort();
 					keys = keys.join(", ");
 					temp_msg += keys;
@@ -512,6 +512,7 @@
 					} else {
 						if (temp_take === 1) {
 							cia.objects[temp_item].room = 0;
+							cia.player.score += cia.objects[temp_item].take_val
 							cia.player.i += 1;
 							if (cia.objects[temp_item].link != 0) {
 								cia.objects[temp_item]. link = 0;
@@ -543,6 +544,7 @@
 					} else {
 						cia.objects[temp_item].room = cia.player.room;
 						cia.player.i -= 1;
+						cia.player.score -= cia.objects[temp_item].take_val
 						engine.update("Dropped.");
 					}
 					
@@ -655,7 +657,7 @@
 								engine.update("The dog is drugged and falls harmlessly at your feet.")
 // remove drug from game
 								cia.objects[9].room = -1;
-								engine.updare("The drug is used up and is no longer in your inventory.")
+								engine.update("The drug is used up and is no longer in your inventory.")
 							} else {
 								engine.update("I don't think it will do any good here.")
 							}
@@ -668,9 +670,9 @@
 				},
 				push : function (item) {
 					if (item === cia.objects[25].key) {
-						cia.rooms[5].exits[1] = 6;
+						cia.rooms[5].exits = [7,6,3,0];
 						cia.objects[25].look = "The panels are toungue-in-groove. A hidden room can be seen behind one panel."
-						engine.update ("The panel ppops open to reveal the entrance to a previously hidden room.");
+						engine.update ("The panel pops open to reveal the entrance to a previously hidden room.");
 					} else {
 						engine.update("It doesn't do any good to push a " + item + ".");
 					}
@@ -1143,7 +1145,7 @@
 				key: "pad",
 				look: "Although the note pad is blank, you can see the indentation of writing on it.",
 				room: 5,
-				link: 0,
+				link: 18,
 				take_val: 0,
 				take_code: 1
 			},{
@@ -1151,7 +1153,7 @@
 				key: "drawer",
 				look: "This is a standard pull desk drawer.",
 				room: 5,
-				link: 0,
+				link: 18,
 				take_val: 0,
 				take_code: 4
 			},{
@@ -1159,7 +1161,7 @@
 				key: "pigeonhole",
 				look: "Thie pigeonhole has a paid bill in it.",
 				room: 5,
-				link: 0,
+				link: 18,
 				take_val: 0,
 				take_code: 4
 			},{
@@ -1167,7 +1169,7 @@
 				key: "bill",
 				look: "This bill is from the telephone company.",
 				room: 5,
-				link: 0,
+				link: 21,
 				take_val: 0,
 				take_code: 1
 			},{
@@ -1175,7 +1177,7 @@
 				key: "phone",
 				look: "This is a beige push button desk phone.",
 				room: 5,
-				link: 0,
+				link: 18,
 				take_val: 0,
 				take_code: 4
 			},{
@@ -1207,7 +1209,7 @@
 				key: "program",
 				look: "One program is for communicating with the U.S. Defense Department's mainframe computer.",
 				room: 6,
-				link: 0,
+				link: 26,
 				take_val: 10,
 				take_code: 5
 			},{
@@ -1255,7 +1257,7 @@
 				key: "tray",
 				look: "The silver tray holds a decanter partially filled with claret.",
 				room: 7,
-				link: 0,
+				link: 54,
 				take_val: 0,
 				take_code: 1
 			},{
@@ -1263,7 +1265,7 @@
 				key: "decanter",
 				look: "The decanter is of etched crystal. It probably holds claret.",
 				room: 7,
-				link: 54,
+				link: 33,
 				take_val: 0,
 				take_code: 1
 			},{
@@ -1271,14 +1273,14 @@
 				key: "claret",
 				look: "An amber liquid",
 				room: 7,
-				link: 0,
+				link: 34,
 				take_val: 0,
 				take_code: 1
 			},{
 				num: 36,
 				key: "cabinet",
 				look: "This is a fairly standard kitchen cabinet.",
-				room: 7,
+				room: 8,
 				link: 0,
 				take_val: 0,
 				take_code: 4
@@ -1287,7 +1289,7 @@
 				key: "bottle",
 				look: "A bottle of capsules are here.",
 				room: 8,
-				link: 0,
+				link: 36,
 				take_val: 0,
 				take_code: 4
 			},{
@@ -1301,7 +1303,7 @@
 			},{
 				num: 39,
 				key: "table",
-				look: "The bedside table has a  phone on it. A piece of paper and a lamp are here.",
+				look: "The bedside table has a phone on it. A piece of paper and a lamp are here.",
 				room: 9,
 				link: 0,
 				take_val: 0,
@@ -1311,7 +1313,7 @@
 				key: "phone",
 				look: "There is a number printed on the phone.",
 				room: 9,
-				link: 0,
+				link: 39,
 				take_val: 0,
 				take_code: 4
 
@@ -1320,7 +1322,7 @@
 				key: "paper",
 				look: "A piece of monogramed writing paper.",
 				room: 9,
-				link: 0,
+				link: 39,
 				take_val: 0,
 				take_code: 5
 			},{
@@ -1352,7 +1354,7 @@
 				key: "microfilm",
 				look: "The microfilm has been developed buy you can't see it without special equipment. Nevertheless it's pretty certain what you have found.",
 				room: 9,
-				link: 0,
+				link: 44,
 				take_val: 10,
 				take_code: 2
 			},{
@@ -1368,7 +1370,7 @@
 				key: "camera",
 				look: "This camera is used to photograph documents on microfilm.",
 				room: 10,
-				link: 0,
+				link: 46,
 				take_val: 10,
 				take_code: 1
 			},{
@@ -1392,7 +1394,7 @@
 				key: "bottles",
 				look: "Bottles of fixer and photoflo are on the shelves.",
 				room: 10,
-				link: 0,
+				link: 46,
 				take_val: 0,
 				take_code: 2
 			},{
@@ -1432,7 +1434,7 @@
 				key: "number",
 				look: "The number is printed on the phone.",
 				room: 9,
-				link: 0,
+				link: 40,
 				take_val: 0,
 				take_code: 4
 			},{
@@ -1440,7 +1442,7 @@
 				key: "paper",
 				look: "The numbers 2-4-8 are written on a piece of paper on top of the drawer.",
 				room: 5,
-				link: 0,
+				link: 20,
 				take_val: 0,
 				take_code: 2
 			},{
