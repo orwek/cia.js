@@ -263,7 +263,7 @@
 						temp_msg = "You are carrying:<br />";
 						for (i = 0; i < cia.objects.length; i +=1){
 							if (cia.objects[i].room === 0) {
-								temp_msg += cia.objects[i].look + "<br />"
+								temp_msg += cia.objects[i].key + "<br />"
 							}
 						}
 					}
@@ -277,10 +277,10 @@
 // See if there are any loose objects in the room
 					for (i = 0; i < cia.objects.length; i += 1){
 						if (cia.objects[i].room === temp_room && cia.objects[i].link === 0) {
-							temp_objects[temp_objects.length] = "</li><li>" + cia.objects[i].look;
+							temp_objects[temp_objects.length] = "</li><li>" + cia.objects[i].key;
 						}
 					}
-					engine.update(cia.rooms[temp_room].look + "<br /><br />You also see:<ul>" + temp_objects + "</li></ul>");
+					engine.update(cia.rooms[temp_room].look + "<br /><br />You see:<ul>" + temp_objects + "</li></ul>");
 				},
 				time : function () {
 					engine.update("Elapsed time is: " + cia.player.time + " minutes.");
@@ -312,15 +312,16 @@
 					temp_room = cia.player.room;
 						if (cia.rooms[temp_room].exits[0] != 0) {
 							temp_msg += "North ";
-						} else if (cia.rooms[temp_room].exits[1] != 0) {
-							temp_msg += "East ";
-						} else if (cia.rooms[temp_room].exits[2] != 0) {
-							temp_msg += "South ";
-						} else if (cia.rooms[temp_room].exits[3] != 0) {
-							temp_msg += "West ";
-						} else {
-							temp_msg += "No Exit ";
 						}
+						if (cia.rooms[temp_room].exits[1] != 0) {
+							temp_msg += "East ";
+						}
+						if (cia.rooms[temp_room].exits[2] != 0) {
+							temp_msg += "South ";
+						}
+						if (cia.rooms[temp_room].exits[3] != 0) {
+							temp_msg += "West ";
+						} 
 // output exits
 					engine.update(temp_msg);
 				},
@@ -471,17 +472,19 @@
 					if (temp_check === 0) {
 						engine.error();
 					} else if (temp_check === temp_array.length){
-						engine.update("You may want to look at that later.");
+						engine.update("I don't see that here.");
 					} else if (temp_check > temp_array.length) {
 						engine.update(cia.objects[temp_index].look);
 // list other items which are linked as children
 						for (i = 0; i < cia.objects.length; i += 1) {
 							if (cia.objects[i].link === temp_index) {
-								temp_links[temp_links.length] = cia.objects[i].look;
+								temp_links[temp_links.length] = cia.objects[i].key;
 							}							
 						}
 						if (temp_links.length !== 0){
-							engine.update(temp_links.join("<br />"));
+							temp_links = temp_links.join("</li><li>");
+							temp_links = "<li>" + temp_links;
+							engine.update("You see:<ul>" + temp_links + "</li></ul>");
 						}
 						
 					} else {
@@ -699,7 +702,7 @@
 								engine.update("The computer can't run the program yet.");
 							} else {								
 								cia.objects[27].take_code = 1;
-								engine.update ("The program dials a Washington D.C. number. A message appears on the monitor.<br /> Please log in: (password: pWord3)")
+								engine.update ("The program dials a Washington D.C. number. A message appears on the monitor.<br /> Please log in: (ie- password pWord3)")
 								}
 						} else {
 							engine.update("I don't see a computer here.")
@@ -717,7 +720,9 @@
 					} else {
 
 						if (item === "HEL-ZXT.93.ZARF.1") {
-							engine.update("The folloing message appears on the monitor: This is the United States Devense Department's top secret account for eapons development and radar resistant airrcraft data. All information is classified.")
+							engine.update("The folloing message appears on the monitor: This is the United States Devense Department's top secret account for eapons development and radar resistant airrcraft data. All information is classified.");
+						} else if (item === "pWord3") {
+							engine.update("that was just an example, try again Gumshoe!");
 						} else {
 							if (cia.player.g = 0) {
 								cia.player.g = 2;
@@ -837,7 +842,7 @@
 					}
 				},
 				on : function (item) {
-					if (item === cia.objects[30]) {
+					if (item === cia.objects[30].key) {
 						if (cia.objects[30].room === cia.player.room) {
 							cia.objects[30].look = cia.objects[30].look.replace("off","on")
 							cia.objects[30].take_code = 3;
@@ -846,7 +851,7 @@
 						} else {
 							engine.update("I don't see one of those here.");
 						}
-					} else if (item === cia.objects[31]) {
+					} else if (item === cia.objects[31].key) {
 						if (cia.objects[31].room === cia.player.room) {
 							cia.objects[31].look = cia.objects[31].look.replace("off","on")
 							cia.objects[31].take_code = 3;
@@ -855,7 +860,7 @@
 						} else {
 							engine.update("I don't see one of those here.");
 						}
-					} else if (item === cia.objects[32]) {
+					} else if (item === cia.objects[32].key) {
 						if (cia.objects[32].room === cia.player.room) {
 							cia.objects[32].look = cia.objects[32].look.replace("off","on")
 							cia.objects[32].take_code = 3;
@@ -1231,7 +1236,7 @@
 			},{
 				num: 30,
 				key: "computer",
-				look: "This is a standard type business microcomputer with a keyboard and a brogram in one of the disk drives. The on/off switch is off.",
+				look: "This is a standard type business microcomputer with a keyboard and a program in one of the disk drives. The on/off switch is off.",
 				room: 6,
 				link: 0,
 				take_val: 0,
@@ -1294,7 +1299,7 @@
 				take_code: 4
 			},{
 				num: 38,
-				key: "capsule",
+				key: "capsules",
 				look: "The capsules are elongated and have a slight aroma of burnt almonds.",
 				room: 8,
 				link: 37,
@@ -1414,10 +1419,12 @@
 				take_val: 0,
 				take_code: 4
 			},{
+// repeat element
 				num: 53,
 				key: "capsules",
 				look: "The capsules are elongated and have a slight aroma of burnt almonds.",
-				room: 8,
+// room: 8,
+				room: 100,
 				link: 0,
 				take_val: 0,
 				take_code: 1
