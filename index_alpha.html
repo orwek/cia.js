@@ -420,6 +420,13 @@
 							} else {
 								engine.update("I don't see a cabinet here.")
 							}
+					} else if (item === "freezer") {
+						if (cia.player.room === 8) {
+							cia.objects[59].look = cia.objects[59].look += "Inside are containers of frozen yogurn, caviar, and frozen herring. A box sitting on the rack on the door is labeled 'Film'.";
+						} else {
+							engine.update("I don't see a freezer here.");
+						}
+
 					} else {
 						engine.update("A " + item + " can't be opened.");
 					}
@@ -437,8 +444,13 @@
 					} else if (item === "briefcase:2-4-8" && cia.objects[17].room !== 0) {
 						engine.update("You don't have a briefcase.");
 					} else if (item === "safe:20-15-9" && cia.player.room === cia.objects[43].room) {
+// put gum in the safe
+						cia.objects[44].link = 43;
+						cia.objects[44].room = 9;
+						cia.objects[44].take_code = 1;
 						engine.update("Opened.");
-						cia.objects[43].look = cia.objects[43].look + " Inside is:"
+						cia.objects[43].look = cia.objects[43].look + " Inside is:";
+						cia.verbs.look("safe");
 					} else if (item === "safe:20-15-9" && cia.player.room !== cia.objects[43].room) {
 						engine.update("I don't see a safe here.");
 					} else {
@@ -773,7 +785,7 @@
 					cia.verbs.eat(item);
 				},
 				unwrap : function (item) {
-					if (item === cia.objects[44]) {
+					if (item === cia.objects[44].key) {
 						if (cia.objects[44].room === 0 || cia.objects[44].room === cia.player.room) {
 							cia.objects[45].take_code = 1;
 							engine.update("The wrapper conceals a tiny strip of microfilm.");
@@ -1350,7 +1362,7 @@
 				num: 44,
 				key: "gum",
 				look: "A pack of stick type peppermint gum. Each piece is wrapped in paper.",
-				room: 9,
+				room: 100,
 				link: 0,
 				take_val: 0,
 				take_code: 2
@@ -1449,7 +1461,7 @@
 				key: "paper",
 				look: "The numbers 2-4-8 are written on a piece of paper on top of the drawer.",
 				room: 5,
-				link: 20,
+				link: 100,
 				take_val: 0,
 				take_code: 2
 			},{
