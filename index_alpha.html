@@ -223,7 +223,7 @@
 					cia.verbs.go("west");
 				},
 				about : function () {
-					var temp_msg = "This text adventure accepts 1 and 2 word commands. 2 word commands should be in the format: verb noun. to see a list of verbs type: 'verbs' to see the list of commands type: 'commands' ";
+					var temp_msg = "This text adventure accepts 1 and 2 word commands. 2 word commands should be in the format: verb noun. to see a list of verbs type: 'verbs' to see the list of commands type: 'commands'. You can carry up to 6 items at a time in your inventory. ";
 					engine.update(temp_msg);
 				},
 				verbs : function () {
@@ -544,7 +544,7 @@
 						} else {
 							engine.error();
 						}
-					}					
+					}
 				},
 				drop : function (item) {
 					var temp_item = 0;
@@ -608,6 +608,12 @@
 						} else {
 							engine.update("You don't see a paper.");
 						}
+// synonyms
+					} else if (item === "combination") {
+						cia.verbs.read("paper");
+					} else if (item === "password") {
+						cia.verbs.read("pad");
+// error out
 					} else {
 						engine.update("Nothing to read.")
 					}
@@ -723,7 +729,7 @@
 					} else {
 						engine.update("You can't run a " + item + ".");
 					}
-// Still needs programed
+
 				},
 				password : function (item) {
 					if (cia.objects[30].take_code === 5 || cia.objects[31].take_code === 5 || cia.objects[32].take_code === 5) {
@@ -788,6 +794,8 @@
 					if (item === cia.objects[44].key) {
 						if (cia.objects[44].room === 0 || cia.objects[44].room === cia.player.room) {
 							cia.objects[45].take_code = 1;
+							cia.objects[45].room = cia.objects[44].room;
+							cia.objects[45].link = 44;
 							engine.update("The wrapper conceals a tiny strip of microfilm.");
 						} else {
 							engine.update("There is nothing to unwrap here.");
@@ -1228,7 +1236,7 @@
 				room: 6,
 				link: 26,
 				take_val: 10,
-				take_code: 5
+				take_code: 2
 			},{
 				num: 28,
 				key: "phone",
@@ -1370,8 +1378,8 @@
 				num: 45,
 				key: "microfilm",
 				look: "The microfilm has been developed buy you can't see it without special equipment. Nevertheless it's pretty certain what you have found.",
-				room: 9,
-				link: 44,
+				room: 100,
+				link: 0,
 				take_val: 10,
 				take_code: 2
 			},{
